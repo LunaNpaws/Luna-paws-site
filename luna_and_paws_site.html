@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luna & Paws</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #fff9f6;
+      color: #333;
+    }
+    header {
+      background-color: #f8e9dd;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #5b4e47;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #776a62;
+    }
+    .cta-button, .cart-button, .add-to-cart {
+      background-color: #cdb6a3;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+      cursor: pointer;
+      border-radius: 25px;
+      color: white;
+      transition: background 0.3s;
+    }
+    .cta-button:hover, .cart-button:hover, .add-to-cart:hover {
+      background-color: #bca08c;
+    }
+    .cart-button {
+      position: absolute;
+      right: 2rem;
+      top: 2rem;
+    }
+    section {
+      padding: 3rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+    section h2 {
+      color: #5b4e47;
+    }
+    .products, .testimonials, .blog, .accessories, .cameras, .feeders {
+      display: grid;
+      gap: 2rem;
+    }
+    .product, .testimonial, .blog-post, .accessory, .camera, .feeder {
+      background: #fff;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .product img, .accessory img, .camera img, .feeder img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    .checkout-section {
+      padding: 2rem;
+      background-color: #fdf4ef;
+      border-top: 2px solid #e5d5cc;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .checkout-section h2 {
+      margin-top: 0;
+    }
+    footer {
+      background-color: #eee3dc;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Where Comfort Meets Companionship</h1>
+    <p>Create a peaceful haven for you and your pup.</p>
+    <button class="cta-button">Shop Now</button>
+    <button class="cart-button" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <section>
+    <h2>Welcome to Luna & Paws</h2>
+    <p>Inspired by calm, cozy spaces, we design essentials that bring warmth to both your pup and your space. From plush beds to smart calming tech, every detail is chosen with peace in mind.</p>
+  </section>
+
+  <section class="products">
+    <div class="product">
+      <img src="https://via.placeholder.com/300x200?text=Snuggle+Beds" alt="Snuggle Beds">
+      <h3>Snuggle Beds</h3>
+      <p>$45.00</p>
+      <button class="add-to-cart" onclick="addToCart('Snuggle Beds', 45)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://via.placeholder.com/300x200?text=Toy+Cubes" alt="Toy Cubes">
+      <h3>Toy Cubes & Tug Bundles</h3>
+      <p>$25.00</p>
+      <button class="add-to-cart" onclick="addToCart('Toy Cubes & Tug Bundles', 25)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://via.placeholder.com/300x200?text=Crate+Covers" alt="Crate Covers">
+      <h3>Minimalist Crate Covers</h3>
+      <p>$39.00</p>
+      <button class="add-to-cart" onclick="addToCart('Minimalist Crate Covers', 39)">Add to Cart</button>
+    </div>
+  </section>
+
+  <section id="checkout" class="checkout-section" style="display:none">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <p><strong>Total:</strong> $<span id="cart-total">0</span></p>
+    <button class="cta-button" onclick="checkoutCart()">Proceed to Checkout</button>
+  </section>
+
+  <footer>
+    <p>Luna & Paws — Home for the calm-hearted.</p>
+    <p>📍Based in NYC | ✉️ hello@lunaandpaws.com</p>
+    <p>
+      <a href="#">Instagram</a> |
+      <a href="#">Pinterest</a> |
+      <a href="#">TikTok</a>
+    </p>
+  </footer>
+
+  <script>
+    let cart = [];
+
+    function addToCart(product, price) {
+      cart.push({ product, price });
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      document.getElementById('cart-count').textContent = cart.length;
+      const cartItemsDiv = document.getElementById('cart-items');
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById('cart-total').textContent = total.toFixed(2);
+
+      cartItemsDiv.innerHTML = '';
+      cart.forEach((item, index) => {
+        cartItemsDiv.innerHTML += `<div class="cart-item">${item.product} — $${item.price.toFixed(2)}</div>`;
+      });
+    }
+
+    function toggleCart() {
+      const checkoutSection = document.getElementById('checkout');
+      checkoutSection.style.display = checkoutSection.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function checkoutCart() {
+      alert('Checkout system coming next! This will integrate with Stripe.');
+    }
+  </script>
+</body>
+</html>
